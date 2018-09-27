@@ -9,6 +9,7 @@
   ],
 
   "plugins": [
+    "inline-react-svg",
     "react-hot-loader/babel"
   ]
 }

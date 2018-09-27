@@ -5,7 +5,10 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
+
 console.log("Building for dev...");
+
 const config = {
   stats: {
     maxModules: 0
@@ -66,6 +69,7 @@ const config = {
             {
               loader: 'sass-loader',
               query: {
+                modules: true,
                 sourceMap: false,
               },
             },
@@ -140,6 +144,7 @@ const config = {
   },
 
   plugins: [
+    new Dotenv(),
     new webpack.NamedModulesPlugin(),
     new webpack.LoaderOptionsPlugin({
       test: /\.jsx?$/,

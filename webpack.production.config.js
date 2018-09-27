@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const config = {
   stats: {
@@ -27,6 +28,7 @@ const config = {
   },
 
   plugins: [
+    new Dotenv(),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new HtmlWebpackPlugin({
       template: `${__dirname}/app/index.html`,
@@ -81,7 +83,10 @@ const config = {
           fallback: 'style-loader',
           use: [
             'css-loader',
-            { loader: 'sass-loader', query: { sourceMap: false } },
+            { loader: 'sass-loader', query: { 
+              modules: true,
+              sourceMap: false 
+            } },
           ],
           publicPath: '../'
         }),

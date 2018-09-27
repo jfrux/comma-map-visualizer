@@ -19,7 +19,8 @@ import {
   DropdownMenu,
   DropdownItem 
 } from 'reactstrap';
-// import Logo from '../assets/images/comma.svg';
+import Logo from '../assets/images/comma.svg';
+import styles from './Styles.scss';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -38,7 +39,7 @@ class App extends Component {
     return (
       <div>
       <Navbar color="dark" dark expand="md">
-        <NavbarBrand href="/">comma speed map</NavbarBrand>
+        <NavbarBrand href="/" className={styles.navbar_brand}><Logo height={25} /> speed map</NavbarBrand>
         <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
