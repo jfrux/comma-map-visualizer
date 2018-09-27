@@ -1,17 +1,18 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
+import { createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
+import createSagaMiddleware from 'redux-saga';
 import rootReducer from '../reducers';
+import rootSagas from '../sagas';
 
-
+const sagaMiddleware = createSagaMiddleware.default();
 
 const configureStore = (initialState) => {
   // Redux Configuration
   const middleware = [];
   const enhancers = [];
 
-  // Thunk Middleware
-  middleware.push(thunk);
+  // Saga Middleware
+  middleware.push(sagaMiddleware);
 
   // Logging Middleware
   const logger = createLogger({
@@ -24,31 +25,12 @@ const configureStore = (initialState) => {
     middleware.push(logger);
   }
 
-  // Router Middleware
-  // const router = routerMiddleware(history);
-  // middleware.push(router);
-
-  // Redux DevTools Configuration
-  const actionCreators = {
-  };
-  // If Redux DevTools Extension is installed use it, otherwise use Redux compose
-  /* eslint-disable no-underscore-dangle */
-  // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-  //   ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-  //       // Options: http://extension.remotedev.io/docs/API/Arguments.html
-  //       actionCreators
-  //     })
-  //   : compose;
-  /* eslint-enable no-underscore-dangle */
-
-  // Apply Middleware & Compose Enhancers
-  // enhancers.push(applyMiddleware(...middleware));
-  // const enhancer = composeEnhancers(...enhancers);
-
   // Create Store
-  const store = createStore(rootReducer);
+  const store = createStore(rootReducer,applyMiddleware(...middleware));
 
-  console.log("store:",store);
+  // Start Root Sagas
+  sagaMiddleware.run(rootSagas)
+
   if (module.hot) {
     module.hot.accept(
       '../reducers',

@@ -1,13 +1,26 @@
-const { resolve } = require('path');
+const fs = require('fs');
+const path = require('path');
+const { resolve } = path;
 
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-// const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
-console.log("Building for dev...");
+const port = process.env.PORT || 3000;
+const publicPath = `http://localhost:${port}/build`;
+
+console.log("Building Trip Index");
+const tripFiles = fs.readdirSync(resolve(__dirname, 'build/trips'));
+console.log(tripFiles);
+const trips = tripFiles.map((tripFile) => {
+  return {
+    fileName: tripFile
+  }
+});
+fs.writeFileSync(resolve(__dirname,'build/trips/index.json'),JSON.stringify(trips));
+console.log("Trip Index Complete");
 
 const config = {
   stats: {
@@ -18,16 +31,16 @@ const config = {
 
   entry: [
     'react-hot-loader/patch',
-    'webpack-dev-server/client?http://localhost:3000',
+    `webpack-dev-server/client?http://localhost:${port}`,
     'webpack/hot/only-dev-server',
-    './main.js',
-    './assets/scss/main.scss',
+    resolve(__dirname,'app/assets/scss/main.scss'),
+    resolve(__dirname,'app/main.js')
   ],
 
   output: {
     filename: 'bundle.js',
-    path: resolve(__dirname, 'dist'),
-    publicPath: '',
+    path: resolve(__dirname, 'build'),
+    publicPath: publicPath,
   },
 
   context: resolve(__dirname, 'app'),
@@ -69,8 +82,8 @@ const config = {
             {
               loader: 'sass-loader',
               query: {
-                modules: false,
-                sourceMap: false,
+                sourceMap: true,
+                modules: true,
               },
             },
           ],

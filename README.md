@@ -19,14 +19,14 @@ Shows a list of routes, user selects a route, it shows the points on a map with 
 - [x] Basic mapbox implementation
 - [x] Overall structure of layout.
 - [x] Redux Store
+- [ ] Mock-endpoint for raw JSON results.
 - [ ] Basic function to iterate through each file.
-- [ ] May need to hardcode the file names in an array at initialization first.
 - [ ] Each record doesn't have a relative time associated with it, all we know is it was sampled at a rate of 1hz.
 - [ ] Display the routes in a list next to a map.
 - [ ] User clicks route, shows route in map with speeds at each point.
 - [ ] It must scrub the data in real-time in the browser.
 - [ ] Iterate data through a visualization sdk such as Mapbox.
-- [ ] Display the points on Mapbox map with a tag showing speed estimated at this point.
+- [ ] Display the points on Mapbox map with a tag showing speed estimated at each point.
 
 ## User Stories
 

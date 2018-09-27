@@ -1,14 +1,37 @@
+@import "~@fortawesome/fontawesome-free/css/all.css";
 @import "~bootstrap/dist/css/bootstrap.css";
 $color: #262828;
 
 body {
   color: $color;
+  background-color:#121212;
 }
 .bg-dark {
   background-color:#212121!important;
 }
 .navbar-brand {
   font-weight:500;
+}
+.map-help-overlay {
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:10;
+  width:100%;
+  height:100%;
+  background-color:rgba(#000,0.5);
+  color:#FFF;
+  padding:30px;
+  display:flex;
+}
+.map-help-icon {
+  font-size:30px;
+  line-height:30px;
+}
+.map-help-text {
+  font-size:22px;
+  line-height: 25px;
+  margin-left:15px;
 }
 #root > div > .container-fluid {
   width: 100%;

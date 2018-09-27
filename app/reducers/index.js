@@ -1,12 +1,89 @@
-import { combineReducers } from 'redux';
-import * as types from '../actions/types';
-import routeReducer from './route_reducer';
+import * as types from '../actions/action_types';
 
+const initialState = {
+  prevTripId: null,
+  currentTripId: null,
+  fetchingList: false,
+  fetching: false,
+  list: {},
+  refreshingMap: false,
+  refreshingTripLine: false,
+  hasTripLines: false
+}
 
+const appReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case types.FETCH_LIST:
+      return {
+        ...state,
+        fetchingList: true,
+        prevTripId: null,
+        currentTripId: null
+      };
+    case types.FETCH_LIST_SUCCESS:
+      return {
+        ...state,
+        fetchingList: false,
+        list: action.payload
+      };
+    case types.FETCH_LIST_ERROR:
+      return {
+        ...state,
+        fetchingList: false,
+        currentTripId: (state.prevTripId !== null ? state.prevTripId : null)
+      };
+    case types.SELECT_TRIP:
+      return {
+        ...state,
+        fetching: true,
+        currentTripId: action.payload.tripId
+      };
+    case types.FETCH_POINTS:
+      return {
+        ...state,
+        fetching: true,
+        prevTripId: state.currentTripId,
+        currentTripId: action.payload.tripId
+      };
+    case types.FETCH_POINTS_SUCCESS:
+      return {
+        ...state,
+        fetching: false,
+        ...action.payload
+      };
+    case types.FETCH_POINTS_ERROR:
+      return {
+        ...state,
+        fetching: false,
+        currentTripId: (state.prevTripId !== null ? state.prevTripId : null)
+      };
 
-const rootReducer = combineReducers({
-    // filter,
-    routes: routeReducer
-});
+    case types.DRAW_TRIP_LINE:
+      return {
+        ...state,
+        refreshingMap: true,
+        refreshingTripLine: true,
+        hasTripLines: false
+      };
 
-export default rootReducer;
+    case types.DRAW_TRIP_LINE_SUCCESS:
+      return {
+        ...state,
+        refreshingMap: false,
+        refreshingTripLine: false,
+        hasTripLines: true
+      };
+
+    case types.DRAW_TRIP_LINE_ERROR:
+      return {
+        ...state,
+        refreshingMap: false,
+        refreshingTripLine: false,
+        hasTripLines: false
+      };
+    default:
+    return state;
+  }
+};
+
+export default appReducer;
