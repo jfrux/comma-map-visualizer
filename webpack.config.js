@@ -3,7 +3,7 @@ const { resolve } = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const OpenBrowserPlugin = require('open-browser-webpack-plugin');
+// const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
@@ -14,7 +14,7 @@ const config = {
     maxModules: 0
   },
   mode: 'development',
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'source-map',
 
   entry: [
     'react-hot-loader/patch',
@@ -69,7 +69,7 @@ const config = {
             {
               loader: 'sass-loader',
               query: {
-                modules: true,
+                modules: false,
                 sourceMap: false,
               },
             },
@@ -158,7 +158,7 @@ const config = {
     new webpack.optimize.ModuleConcatenationPlugin(),
     new ExtractTextPlugin({ filename: './styles/style.css', disable: false, allChunks: true }),
     new CopyWebpackPlugin([{ from: 'vendors', to: 'vendors' }]),
-    new OpenBrowserPlugin({ url: 'http://localhost:3000' }),
+    // new OpenBrowserPlugin({ url: 'http://localhost:3000' }),
     new webpack.HotModuleReplacementPlugin(),
   ]
 };
