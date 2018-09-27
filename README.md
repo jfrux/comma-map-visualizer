@@ -1,4 +1,6 @@
-# Comma Speed/Distance Web-based Map Visualization
+# Comma Map Visualization
+
+Shows a list of routes, user selects a route, it shows the points on a map with a blip for speed of each point.
 
 ## Scope
 
@@ -11,11 +13,12 @@
 `Wed. Oct. 3rd, 2018`
 
 
-## Todos
+## Todos / Key Elements
 
 - [x] Research existing OSS modules that could be helpful in this project.
 - [ ] Basic function to iterate through each file.
 - [ ] May need to hardcode the file names in an array at initialization first.
+- [ ] Each record doesn't have a relative time associated with it, all we know is it was sampled at a rate of 1hz.
 - [ ] Display the routes in a list next to a map.
 - [ ] User clicks route, shows route in map with speeds at each point.
 - [ ] It must scrub the data in real-time in the browser.
