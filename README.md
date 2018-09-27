@@ -1,4 +1,4 @@
-# Comma Map Visualization
+# Comma Speedmap Challenge
 
 Shows a list of routes, user selects a route, it shows the points on a map with a blip for speed of each point.
 
@@ -12,28 +12,28 @@ Shows a list of routes, user selects a route, it shows the points on a map with 
 
 `Wed. Oct. 3rd, 2018`
 
-
 ## Todos / Key Elements
 
 - [x] Research existing OSS modules that could be helpful in this project.
 - [x] Basic mapbox implementation
 - [x] Overall structure of layout.
 - [x] Redux Store
-- [ ] Mock-endpoint for raw JSON results.
-- [ ] Basic function to iterate through each file.
-- [ ] Each record doesn't have a relative time associated with it, all we know is it was sampled at a rate of 1hz.
-- [ ] Display the routes in a list next to a map.
-- [ ] User clicks route, shows route in map with speeds at each point.
-- [ ] It must scrub the data in real-time in the browser.
-- [ ] Iterate data through a visualization sdk such as Mapbox.
-- [ ] Display the points on Mapbox map with a tag showing speed estimated at each point.
+- [x] Mock-endpoint for raw JSON results.
+- [x] Serves JSON files as static assets for now until we want to host them somewhere or allow users to add feeds.
+- [x] Very fast performance for processing the data in the browser.
+- [x] Display the routes in a list next to a map.
+- [x] User clicks route, shows route in map with speeds at each point.
+- [x] As you zoom in you see more and more speeds 
+- [x] It must scrub the data in real-time in the browser.
+- [x] Iterate data through a visualization sdk such as Mapbox.
+- [x] Display the points on Mapbox map with a tag showing speed estimated at each point.
 
 ## User Stories
 
-- [ ] User visits page and sees list of routes and a message telling them to select a route.
-- [ ] User clicks a route, Mapbox appears where message was.
-- [ ] User sees points visualized on the map for the route.
-- [ ] User clicks a blip on the map and it shows the speed, or possibly it shows the speed already for them depending on how zoomed the map is.
+- [x] User visits page and sees list of routes and a message telling them to select a route.
+- [x] User clicks a route, Mapbox appears where message was.
+- [x] User sees points visualized on the map for the route.
+- [x] User zooms in and sees more and more detailed list of speeds.
 
 ## Starting the dev server
 
