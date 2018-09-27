@@ -5,7 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-
+console.log("Building for dev...");
 const config = {
   stats: {
     maxModules: 0
@@ -15,7 +15,7 @@ const config = {
 
   entry: [
     'react-hot-loader/patch',
-    'webpack-dev-server/client?http://localhost:8080',
+    'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
     './main.js',
     './assets/scss/main.scss',
@@ -31,6 +31,7 @@ const config = {
 
   devServer: {
     hot: true,
+    port: 3000,
     contentBase: resolve(__dirname, 'build'),
     historyApiFallback: true,
     publicPath: '/'
@@ -152,7 +153,7 @@ const config = {
     new webpack.optimize.ModuleConcatenationPlugin(),
     new ExtractTextPlugin({ filename: './styles/style.css', disable: false, allChunks: true }),
     new CopyWebpackPlugin([{ from: 'vendors', to: 'vendors' }]),
-    new OpenBrowserPlugin({ url: 'http://localhost:8080' }),
+    new OpenBrowserPlugin({ url: 'http://localhost:3000' }),
     new webpack.HotModuleReplacementPlugin(),
   ]
 };
