@@ -1,69 +1,42 @@
-const { resolve } = require('path');
+const fs = require('fs');
+const path = require('path');
+const { resolve } = path;
+
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+
+const publicPath = `/`;
+console.log("Building Trip Index");
+const tripFiles = fs.readdirSync(resolve(__dirname, 'build/trips'));
+const trips = tripFiles.filter((dir) => { return (dir !== 'index.json'); }).map((tripFile) => {
+  return {
+    fileName: tripFile
+  }
+});
+fs.writeFileSync(resolve(__dirname,'build/trips/index.json'),JSON.stringify(trips));
+console.log("Trip Index Complete");
 
 const config = {
   stats: {
     maxModules: 0
   },
   mode: 'production',
-  devtool: 'cheap-module-source-map',
 
   entry: [
-    './main.js',
-    './assets/scss/main.scss',
+    resolve(__dirname,'app/assets/scss/main.scss'),
+    resolve(__dirname,'app/main.js')
   ],
-
-  context: resolve(__dirname, 'app'),
 
   output: {
-    filename: '[name].[chunkhash].js',
-    chunkFilename: '[name].[chunkhash].js',
-    path: resolve(__dirname, 'dist'),
-    publicPath: '',
+    filename: 'bundle.js',
+    path: resolve(__dirname, 'build'),
+    publicPath: publicPath,
   },
 
-  plugins: [
-    new Dotenv(),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new HtmlWebpackPlugin({
-      template: `${__dirname}/app/index.html`,
-      filename: 'index.html',
-      inject: 'body',
-    }),
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false,
-    }),
-    new webpack.DefinePlugin({ 'process.env': { NODE_ENV: JSON.stringify('production') } }),
-    new ExtractTextPlugin({ filename: './styles/style.css', disable: false, allChunks: true }),
-    new CopyWebpackPlugin([{ from: './vendors', to: 'vendors' }]),
-  ],
-
-  optimization: {
-    runtimeChunk: false,
-    splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-        },
-      },
-    },
-    minimizer: [
-      new UglifyJsPlugin({
-        cache: true,
-        parallel: true,
-        sourceMap: true
-      })
-    ]
-  },
+  context: resolve(__dirname, 'app'),
 
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -72,24 +45,35 @@ const config = {
   module: {
     rules: [
       {
+        enforce: "pre",
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: "eslint-loader"
+      },
+      {
+        test: /\.jsx?$/,
+        loaders: [
+          'babel-loader',
+        ],
+        exclude: /node_modules/,
       },
       {
         test: /\.scss$/,
         exclude: /node_modules/,
-        use: ExtractTextPlugin.extract({
+        use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
             'css-loader',
-            { loader: 'sass-loader', query: { 
-              modules: true,
-              sourceMap: false 
-            } },
+            {
+              loader: 'sass-loader',
+              query: {
+                sourceMap: true,
+                modules: true,
+              },
+            },
           ],
           publicPath: '../'
-        }),
+        })),
       },
       {
         test: /\.(png|jpg|gif)$/,
@@ -156,6 +140,26 @@ const config = {
       },
     ]
   },
+
+  plugins: [
+    new Dotenv(),
+    new webpack.NamedModulesPlugin(),
+    new webpack.LoaderOptionsPlugin({
+      test: /\.jsx?$/,
+      options: {
+        eslint: {
+          configFile: resolve(__dirname, '.eslintrc'),
+          cache: false,
+        }
+      },
+    }),
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    new ExtractTextPlugin({ filename: './styles/style.css', disable: false, allChunks: true }),
+    new CopyWebpackPlugin([{ from: 'vendors', to: 'vendors' }]),
+    // new OpenBrowserPlugin({ url: 'http://localhost:3000' }),
+    new webpack.HotModuleReplacementPlugin(),
+    new UglifyJsPlugin(),
+  ]
 };
 
 module.exports = config;

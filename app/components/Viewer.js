@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Map from './Map';
 import * as Actions from '../actions';
 import { bindActionCreators } from 'redux';
+import LoadingOverlay from './LoadingOverlay';
 import { connect } from 'react-redux';
 import {
   Container,
@@ -45,9 +46,9 @@ class Viewer extends Component {
   }
   render() {
     const { list, fetching, fetchingList, currentTripId } = this.props;
-    let listKeys = Object.keys(list).sort();
+    let listKeys = Object.keys(list).sort((a,b) => { return parseInt(a)-parseInt(b)});
     if (fetchingList) {
-      return <div>Loading...</div>;
+      return <LoadingOverlay />;
     }
     const tripListItems = listKeys.map((itemKey) => {
       let item = list[itemKey];
@@ -57,7 +58,10 @@ class Viewer extends Component {
         className={styles.trip_button} 
         tag="button"
         active={this.props.currentTripId === item.id}>
-          <span className={styles.trip_name}>{item.name}</span>
+          <span className="trip-item-img">
+            {item.id}
+          </span>
+          <span className="trip-item-name">{item.name}</span>
           <i className="fa fa-chevron-right"></i>
       </ListGroupItem>);
     });
@@ -65,14 +69,15 @@ class Viewer extends Component {
       <div>
         <Navbar color="dark" dark expand="xs">
           <NavbarBrand href="/" className={styles.navbar_brand}>
-            {process.env.NODE_ENV !== 'development' &&
-              <span><Logo height={25} /> speedmap</span>
-            }
+            <span><Logo height={25} /> speedmap</span>
           </NavbarBrand>
         </Navbar>
         <Container fluid={true}>
           <Row>
             <Col sm="3" className={styles.viewer_list_container}>
+              <div className="add-input-wrap">
+              
+              </div>
               <ListGroup flush={true}>
                 {tripListItems}
               </ListGroup>
@@ -84,6 +89,7 @@ class Viewer extends Component {
                   <div className="map-help-text">select a route to begin</div>
                 </div>
               }
+              <Logo className="comma-watermark" />
               <Map />
             </Col>
           </Row>

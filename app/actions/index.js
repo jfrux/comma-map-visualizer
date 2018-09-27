@@ -11,11 +11,10 @@ export function fetchList_SUCCESS(json) {
 
   json.forEach((item) => {
     let tripId = parseInt(item.fileName.replace('.json',''));
-    
     trips[tripId] = {
       ...item,
       id: tripId,
-      name: item.fileName.replace('.json',''),
+      name: item.fileName,
       totalDistance: null,
       totalTime: null
     };
@@ -97,7 +96,7 @@ function mapboxPointsObject(points) {
       "layout": {
           "icon-image": "{icon}-15",
           "text-field": "{title}",
-          "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+          "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
           "text-offset": [0, 0.6],
           "text-anchor": "top"
       }
@@ -111,7 +110,6 @@ function mapboxLineObject(coords) {
       "type": "geojson",
       "data": {
         "type": "Feature",
-        "properties": {},
         "geometry": {
           "type": "LineString",
           "coordinates": coords
@@ -123,8 +121,8 @@ function mapboxLineObject(coords) {
       "line-cap": "round"
     },
     "paint": {
-      "line-color": "#888",
-      "line-width": 8
+      'line-color': '#FFF',
+      "line-width": 4
     }
   };
 }
@@ -165,7 +163,6 @@ export function fetchPoints_SUCCESS(json) {
   });
   const coordsArrayOfArrays = getCoordsArraysArrayFromPoints(points);
   const coordsArrayOfObjects = getCoordsObjectsArrayFromPoints(points);
-  console.log(coordsArrayOfObjects);
   const tripCenterObject = geolib.getCenter(coordsArrayOfObjects);
   const tripCenterArray = [parseFloat(tripCenterObject.longitude),parseFloat(tripCenterObject.latitude)];
   return {

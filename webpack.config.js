@@ -14,7 +14,7 @@ const publicPath = `http://localhost:${port}/build`;
 console.log("Building Trip Index");
 const tripFiles = fs.readdirSync(resolve(__dirname, 'build/trips'));
 console.log(tripFiles);
-const trips = tripFiles.map((tripFile) => {
+const trips = tripFiles.filter((dir) => { return (dir !== 'index.json'); }).map((tripFile) => {
   return {
     fileName: tripFile
   }

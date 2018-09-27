@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
 import styles from './Styles.scss';
 import PropTypes from 'prop-types';
+import Logo from '../assets/images/comma.svg';
 var speedFactor = 30; // number of frames per longitude degree
 var animation; // to store and cancel the animation
 var startTime = 0;
@@ -30,18 +31,11 @@ class Map extends Component {
   }
   centerMap = () => {
     const { tripCenterArray, coordsArrayOfArrays, tripLine } = this.props;
-    console.warn("flying to center:", tripCenterArray);
+
     this.map.flyTo({
       center: tripCenterArray
     });
-    // Geographic coordinates of the LineString
-    // var coordinates = tripLine.features[0].geometry.coordinates;
-
-    // Pass the first coordinates in the LineString to `lngLatBounds` &
-    // wrap each coordinate pair in `extend` to include them in the bounds
-    // result. A variation of this technique could be applied to zooming
-    // to the bounds of multiple Points or Polygon geomteries - it just
-    // requires wrapping all the coordinates with the extend method.
+    
     var bounds = coordsArrayOfArrays.reduce(function(bounds, coord) {
         return bounds.extend(coord);
     }, new mapboxgl.LngLatBounds(coordsArrayOfArrays[0], coordsArrayOfArrays[0]));
@@ -51,25 +45,23 @@ class Map extends Component {
     });
   }
   refreshTripLine = () => {
-    console.warn("pointsObject",this.props.pointsLine);
-    console.warn("refreshTripLine",this.props.tripLine);
     if (this.state.hasTripLine) {
       this.map.removeLayer("route");
       this.map.removeLayer("points");
+      this.map.removeSource("route");
+      this.map.removeSource("points");
     }
     this.map.addLayer(this.props.tripLine);
     this.map.addLayer(this.props.pointsLine);
     this.setState({
       hasTripLine: true
-    })
+    });
   }
   componentDidUpdate(origProps) {
     if (this.props.tripLine !== origProps.tripLine) {
       this.refreshTripLine();
     }
     if (this.props.tripCenterArray !== origProps.tripCenterArray) {
-      console.log("this.props:", this.props)
-      console.log("origProps:", origProps)
       this.centerMap();
     }
   }
@@ -78,7 +70,7 @@ class Map extends Component {
 
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
-      style: 'mapbox://styles/mapbox/streets-v9'
+      style: 'mapbox://styles/jfrux/cjml07o29c2ec2rryqrw1mq95'
     });
 
     this.map.on('load',() => {
