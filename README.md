@@ -15,7 +15,7 @@ Shows a list of routes, user selects a route, it shows the points on a map with 
 ## Todos / Nice to haves
 
 - [ ] Field to quick add a new feed by URL
-- [ ] Animate / replace the drive in real-time, showing speed in HUD
+- [ ] Animate / replay the drive in real-time, showing speed in HUD
 
 ## Done
 
