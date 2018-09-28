@@ -12,7 +12,12 @@ Shows a list of routes, user selects a route, it shows the points on a map with 
 
 `Wed. Oct. 3rd, 2018`
 
-## Todos / Key Elements
+## Todos / Nice to haves
+
+- [ ] Field to quick add a new feed by URL
+- [ ] Animate / replace the drive in real-time, showing speed in HUD
+
+## Done
 
 - [x] Research existing OSS modules that could be helpful in this project.
 - [x] Basic mapbox implementation
