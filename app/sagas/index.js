@@ -1,7 +1,43 @@
 import { call, put, takeEvery, takeLatest, all } from 'redux-saga/effects';
 import * as types from '../actions/action_types';
 import * as actionCreators from '../actions';
+import timerSaga from './timer_saga';
 
+/* 
+TIMER
+RELATED
+SAGA
+*/
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+function* increment() {
+  yield call(delay, 50);
+  yield put({type: 'INCREMENT'});
+  return true;
+};
+
+export default function* watchIncrement() {
+  while (true) {
+    let cancelTask;
+    
+    yield take('START');
+
+    while (!cancelTask) {
+      const {start, cancel} = yield race({
+        start: call(increment),
+        cancel: take(['STOP', 'RESET'])
+      });
+
+      cancelTask = cancel;
+    }
+  }
+};
+
+/* 
+TRIP
+RELATED
+SAGA
+*/
 // User selected a trip, which is now going to dispatch FETCH_POINTS
 function* selectTrip(action) {
   yield put(actionCreators.fetchPoints(action.payload.tripId));
@@ -17,7 +53,6 @@ function* fetchList(action) {
     yield put(actionCreators.fetchList_ERROR(e));
   }
 }
-
 // Will be fired on FETCH_TRIP actions
 function* fetchPoints(action) {
   try {
@@ -35,6 +70,7 @@ function* fetchPoints(action) {
 */
 function* fetchWatcher() {
   return all(
+    yield takeEvery(types.FETCH_POINTS_SUCCESS, onRestartPlayback),
     yield takeLatest(types.SELECT_TRIP, selectTrip),
     yield takeLatest(types.FETCH_POINTS, fetchPoints),
     yield takeEvery(types.FETCH_LIST, fetchList)

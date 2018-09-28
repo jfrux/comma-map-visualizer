@@ -5,6 +5,9 @@ export function fetchList() {
       type: types.FETCH_LIST
   };
 }
+export function startPlayer() { return { type: 'START' }; };
+export function stopPlayer() { return { type: 'STOP' }; };
+export function resetPlayer() { return { type: 'RESET' }; };
 
 export function fetchList_SUCCESS(json) {
   let trips = {};
@@ -169,6 +172,8 @@ export function fetchPoints_SUCCESS(json) {
       type: types.FETCH_POINTS_SUCCESS,
       payload: {
         points,
+        playing: true,
+        duration: coordsArrayOfArrays.length,
         pointsLine: mapboxPointsObject(points),
         tripCenterObject,
         tripCenterArray,

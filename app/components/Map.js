@@ -19,7 +19,8 @@ const propTypes = {
   refreshingTripLine: PropTypes.bool,
   refreshingMap: PropTypes.bool,
   tripCenterArray: PropTypes.array,
-  coordsArrayOfArrays: PropTypes.array
+  coordsArrayOfArrays: PropTypes.array,
+  playing: PropTypes.bool
 };
 class Map extends Component {
   constructor() {
@@ -54,6 +55,8 @@ class Map extends Component {
     this.map.addLayer(this.props.tripLine);
     this.map.addLayer(this.props.pointsLine);
     this.setState({
+      playing: true,
+      start: new Date(),
       hasTripLine: true
     });
   }
@@ -78,12 +81,25 @@ class Map extends Component {
        
       }
     });
+    this.timer = setInterval(this.tick, 1000);
   }
-
+  play() {
+    this.setState({
+      playing: true
+    });
+  }
   componentWillUnmount() {
     this.map.remove();
+    clearInterval(this.timer);
   }
 
+  tick() {
+    if (this.state.playing) {
+      this.setState({
+        elapsed: new Date() - this.props.start
+      });
+    }
+  }
   render() {
     return <div className={styles.map} ref={el => this.mapContainer = el} />;
   }
@@ -93,6 +109,7 @@ Map.propTypes = propTypes;
 
 function mapStateToProps(state) {
   return {
+    playing: state.playing,
     coordsArrayOfArrays: state.coordsArrayOfArrays,
     tripCenterArray: state.tripCenterArray,
     tripLine: state.tripLine,

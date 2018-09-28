@@ -81,6 +81,32 @@ const appReducer = (state = initialState, action) => {
         refreshingTripLine: false,
         hasTripLines: false
       };
+
+      //PLAYBACK
+      case 'START':
+        return {
+          ...state, 
+          active: true, 
+          reset: false
+        };
+      case 'STOP':
+        return {
+          ...state, 
+          active: false
+        };
+      case 'RESET':
+        return {
+          ...state, 
+          startTime: new Date(),
+          active: false, 
+          reset: true, 
+          currentTime: 0
+        };
+      case 'INCREMENT':
+        return {
+          ...state, 
+          currentTime: new Date() - state.startTime
+        };
     default:
     return state;
   }
