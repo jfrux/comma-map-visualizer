@@ -12839,6 +12839,51 @@ a.text-dark:hover, a.text-dark:focus {
   color: #262828;
   background-color: #16181a; }
 
+.debug_button {
+  position: fixed;
+  top: 9px;
+  right: 10px;
+  z-index: 10; }
+
+.map_debugger {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 40%;
+  background-color: rgba(0, 0, 0, 0.7);
+  overflow: auto;
+  transform: translateX(100%);
+  transition: 0.5s ease-in all; }
+  .map_debugger .stats {
+    display: flex;
+    color: #FFF;
+    text-align: center;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.2); }
+    .map_debugger .stats .label {
+      font-size: 12px;
+      padding: 10px;
+      text-transform: uppercase; }
+    .map_debugger .stats .value {
+      font-size: 18px; }
+  .map_debugger.activated {
+    transform: translateX(0); }
+  .map_debugger .records_list {
+    display: table;
+    width: 100%; }
+    .map_debugger .records_list .records_heading .label {
+      font-weight: 500;
+      color: #FFF;
+      white-space: nowrap; }
+    .map_debugger .records_list > div {
+      display: table-row; }
+      .map_debugger .records_list > div .label {
+        font-size: 10px;
+        padding: 10px;
+        color: #FFF;
+        display: table-cell; }
+
 .bg-dark {
   background-color: #16181a !important; }
 
@@ -13006,25 +13051,6 @@ a.text-dark:hover, a.text-dark:focus {
   background-position: center center;
   background-repeat: no-repeat;
   animation: spinner 0.8s infinite linear; }
-.map {
-  position: 'absolute';
-  top: 0;
-  bottom: 0;
-  width: '100%'; }
-
-.help_overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%; }
-
-.navbar_brand {
-  font-weight: 100; }
-
-.viewer_list_container {
-  overflow: auto;
-  height: 100%; }
 .loading_overlay {
   position: absolute;
   top: 0;
@@ -13054,3 +13080,22 @@ a.text-dark:hover, a.text-dark:focus {
     text-align: center; }
   .loading_message span.line2 {
     color: rgba(255, 255, 255, 0.5); }
+.map {
+  position: 'absolute';
+  top: 0;
+  bottom: 0;
+  width: '100%'; }
+
+.help_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%; }
+
+.navbar_brand {
+  font-weight: 100; }
+
+.viewer_list_container {
+  overflow: auto;
+  height: 100%; }
