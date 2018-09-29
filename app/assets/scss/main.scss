@@ -6,6 +6,65 @@ body {
   color: $color;
   background-color:#16181a;
 }
+.debug_button {
+  position:fixed;
+  top:9px;
+  right:10px;
+  z-index:10;
+}
+.map_debugger {
+  position:absolute;
+  top:0;
+  right:0;
+  height:100%;
+  width:40%;
+  background-color:rgba(#000,0.7);
+  overflow:auto;
+  transform: translateX(100%);
+  transition: 0.5s ease-in all;
+  .stats {
+    display:flex;
+    color:#FFF;
+    text-align:center;
+    width:100%;
+    background-color:rgba(#000,0.2);
+    .label {
+      font-size:12px;
+      padding:10px;
+      text-transform:uppercase;
+    }
+    .value {
+      font-size:18px;
+    }
+  }
+  &.activated {
+    transform: translateX(0);
+  }
+  .records_list {
+    display:table;
+    width:100%;
+
+    .records_heading {
+      .label {
+        font-weight:500;
+        color:#FFF;
+        white-space:nowrap;
+      }
+    }
+    > div {
+      display:table-row;
+      .label {
+        font-size:10px;
+        padding:10px;
+        color:#FFF;
+        // background-color:rgba(#FFF,0.2);
+        display:table-cell;
+      }
+    }
+  }
+  
+  
+}
 .bg-dark {
   background-color:#16181a!important;
 }

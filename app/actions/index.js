@@ -77,7 +77,7 @@ function mapboxPointsObject(points) {
           "type": "geojson",
           "data": {
               "type": "FeatureCollection",
-              "features": pointsKeys.map((pointId) => {
+              "features": pointsKeys.map((pointId, index) => {
                 const pointObj = points[pointId];
                 return {
                   "type": "Feature",
@@ -86,7 +86,7 @@ function mapboxPointsObject(points) {
                       "coordinates": [pointObj.lng, pointObj.lat]
                   },
                   "properties": {
-                      "title": pointObj.speedMphFriendly,
+                      "title": `${pointObj.speedMphFriendly}\n${pointObj.speedKphFriendly}\n#${index}`,
                       "icon": "monument"
                   }
                 };
@@ -144,31 +144,47 @@ export function fetchPoints_SUCCESS(json) {
   });
 
   // Process and prep for rendering
-  Object.keys(points).sort().forEach((id) => {
+  let totalDistance = 0;
+  let sumOfSpeedsMph = 0;
+  let avgSpeedMph = 0;
+  let sumOfSpeedsKph = 0;
+  let avgSpeedKph = 0;
+  Object.keys(points).forEach((id) => {
     const record = points[id];
     const prevRecord = points[record.prevPointsId];
     const currentCoords = { lat: record.lat, lng: record.lng, time: (record.timestamp*1000) };
     const prevCoords = { lat: prevRecord.lat, lng: prevRecord.lng, time: (prevRecord.timestamp*1000) };
     const speed = geolib.getSpeed(prevCoords, currentCoords) || 0;
     const speedMph = speed * 0.621371 || 0;
-
+    const distance = geolib.getDistance(prevCoords, currentCoords);
+    totalDistance = totalDistance + distance;
+    sumOfSpeedsMph = sumOfSpeedsMph + speedMph;
+    sumOfSpeedsKph = sumOfSpeedsKph + speed;
     points[id] = {
       ...record,
-      distance: geolib.getDistance(prevCoords, currentCoords),
+      distance: distance,
       speed,
       speedMph: speedMph,
       speedKphFriendly: Math.round(speed) + " kph",
       speedMphFriendly: Math.round(speedMph) + " mph"
     };
   });
+
   const coordsArrayOfArrays = getCoordsArraysArrayFromPoints(points);
   const coordsArrayOfObjects = getCoordsObjectsArrayFromPoints(points);
   const tripCenterObject = geolib.getCenter(coordsArrayOfObjects);
   const tripCenterArray = [parseFloat(tripCenterObject.longitude),parseFloat(tripCenterObject.latitude)];
+
+  avgSpeedMph = sumOfSpeedsMph / coordsArrayOfArrays.length;
+  avgSpeedKph = sumOfSpeedsKph / coordsArrayOfArrays.length;
+  // console.log("pointsWithSpeeds",points);
   return {
       type: types.FETCH_POINTS_SUCCESS,
       payload: {
         points,
+        avgSpeedMph,
+        avgSpeedKph,
+        totalDistance,
         pointsLine: mapboxPointsObject(points),
         tripCenterObject,
         tripCenterArray,

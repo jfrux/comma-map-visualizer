@@ -3,7 +3,6 @@ import * as Actions from '../actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import mapboxgl from 'mapbox-gl';
-import styles from './Styles.scss';
 import PropTypes from 'prop-types';
 import Logo from '../assets/images/comma.svg';
 var speedFactor = 30; // number of frames per longitude degree
@@ -85,7 +84,7 @@ class Map extends Component {
   }
 
   render() {
-    return <div className={styles.map} ref={el => this.mapContainer = el} />;
+    return <div className="map" ref={el => this.mapContainer = el} />;
   }
 }
 

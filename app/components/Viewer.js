@@ -4,6 +4,7 @@ import * as Actions from '../actions';
 import { bindActionCreators } from 'redux';
 import LoadingOverlay from './LoadingOverlay';
 import { connect } from 'react-redux';
+import MapDebugger from './MapDebugger';
 import {
   Container,
   Collapse,
@@ -91,6 +92,7 @@ class Viewer extends Component {
               }
               <Logo className="comma-watermark" />
               <Map />
+              <MapDebugger />
             </Col>
           </Row>
         </Container>
