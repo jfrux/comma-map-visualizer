@@ -2,10 +2,6 @@
 
 Shows a list of routes, user selects a route, it shows the points on a map with a blip for speed of each point.
 
-## Deadline
-
-`Wed. Oct. 3rd, 2018`
-
 ## Todos / Nice to haves
 
 - [ ] Field to quick add a new feed by URL
