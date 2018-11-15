@@ -1,4 +1,4 @@
-# Comma Speedmap Challenge
+# Comma Map Speed Visualizer
 
 Shows a list of routes, user selects a route, it shows the points on a map with a blip for speed of each point.
 
