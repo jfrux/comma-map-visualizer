@@ -2,12 +2,6 @@
 
 Shows a list of routes, user selects a route, it shows the points on a map with a blip for speed of each point.
 
-## Scope
-
-> Attached are a few hundred trip paths from the SF Bay Area, each of which is represented as coordinate pairs sampled at 1hz in a JSON file. Please build an performant web-based map visualization of the distribution of speeds along the trip paths. We'd like to see all reading+processing of JSON data performed in the browser.
->
-> -- Andy
-
 ## Deadline
 
 `Wed. Oct. 3rd, 2018`
